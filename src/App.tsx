@@ -3,6 +3,8 @@ import ServiceHandler from "./service/Handler";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import Header from "./components/header/Header.tsx";
+import Search from "./pages/Search.tsx";
+import Watch from "./pages/Watch.tsx";
 
 const htmlTitle: any = document.querySelector("title");
 htmlTitle.textContent = sessionStorage.getItem('htmlTitle') || 'Youtube';
@@ -13,7 +15,7 @@ function App( { youtube } : any) {
   const [videos, setVideos] = useState(() => {
     return JSON.parse(sessionStorage.getItem('videos') || '[]');  
   });
-  const [selectedVideo, setSelectedVideo] = useState("");
+  const [selectedVideo, setSelectedVideo] = useState(JSON.parse(sessionStorage.getItem('selectedVideo') || ''));
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -46,18 +48,46 @@ function App( { youtube } : any) {
             onLogoClick={handler.clickLogo}
           />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <Home 
-                  onLogoClick={handler.clickLogo} 
+            <>
+              <Route
+                path="/"
+                element={
+                  <Home 
+                    onLogoClick={handler.clickLogo} 
+                    youtube={youtube}
+                    videos={videos}
+                    selectVideo={handler.selectVideo}
+                    loading={loading}
+                  />
+                }
+              >
+              </Route>
+              <Route
+                path="/results"
+                element={
+                  <Search
+                    clickLogo={handler.clickLogo}
+                    youtube={youtube}
+                    videos={videos}
+                    selectVideo={handler.selectVideo}
+                    loading={loading}
+                  />
+                }
+              >
+              </Route>
+              <Route 
+                path="/watch"
+                element={
+                  <Watch
                   youtube={youtube}
                   videos={videos}
                   selectVideo={handler.selectVideo}
+                  selectedVideo={selectedVideo}
                   loading={loading}
                 />
-              }
-            ></Route>
+                }>
+              </Route>
+            </>
           </Routes>
         </>
       ) : null}

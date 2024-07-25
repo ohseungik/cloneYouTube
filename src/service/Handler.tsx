@@ -24,7 +24,7 @@ class ServiceHandler {
         this.htmlTitle.textContent = `(8) ${video.videoTitle}`;
         this.setLoading(true);
         this.setSelectedVideo(video);
-        this.youtube.getRcmData().then((videos: any) => {
+        this.youtube.getRcmData(video.videoId).then((videos: any) => {
             this.setVideos(videos);
             this.setLoading(false);
         })

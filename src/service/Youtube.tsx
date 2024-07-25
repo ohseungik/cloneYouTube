@@ -35,7 +35,7 @@ class Youtube {
         return response.data.items;
     }
 
-    async getRcmData() {
+    async getRcmData(videoId: any) {
         const response = await this.youtube.get('search', {
             params: {
                 part: 'snippet',
